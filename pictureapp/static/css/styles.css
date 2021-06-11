@@ -1,5 +1,5 @@
 .post {
-    background-color: rgb(41, 85, 124);
+    background-color: aliceblue;
     padding: 25px;
     margin: 25px;
     border-radius: 25px;
@@ -11,9 +11,13 @@
     min-height: 50px;
     border-radius: 25px;
 }
-.create{
-    background-color: rgb(41, 85, 124);
+.create {
+    background-color: #4D8C9E;
     padding: 25px;
     margin: 25px;
     border-radius: 25px;
+}
+.img-thumbnail{
+    max-width: 500px;
+    max-height: 500px;
 }

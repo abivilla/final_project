@@ -49,15 +49,22 @@
                 <div>
                     {% for post in posts reversed %}
                     <div class="post">
-                        {{post.poster.first_name}}-
-                        <br>
-                        <img class="img-thumbnail" alt="missing image" src="{{post.picture.url}}" >
+                        <a class="nav-link" href="/profile/{{post.poster.id}}">{{post.poster.first_name}}-</a>
                         {{post.desc}}
+                        <br>
+                        
+                        <img class="img-thumbnail" alt="missing image" src="{{post.picture.url}}" >
                         
                             {% for comment in post.post_comments.all %}
                         <div class="comment">
                             {{comment.poster.first_name}}-
                             {{comment.comment}}
+                            <div class="row">
+                                <a class="nav-link" href="/like_com/{{comment.id}}">{{comment.likes.count}} Like</a>
+                                {% if comment.poster.id == request.session.user_id %}
+                                <a class="nav-link" href="/delete_com/{{comment.id}}">Delete</a>
+                                {% endif %}
+                            </div>
                         </div>
                             {% endfor %}
                         
@@ -65,10 +72,13 @@
                             Post a comment
                             <form action="/create_comment/{{post.id}}" method="post">
                                 {% csrf_token %}
-                                <textarea name="comment" cols="100" rows="2"></textarea>
+                                <textarea name="comment" cols="50" rows="2"></textarea>
                                 <br>
                                 <button class="btn-primary">Post a comment</button>
                             </form>
+                            <div class="row">
+                            <a class="nav-link" href="/like/{{post.id}}">{{post.likes.count}} Like</a>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}

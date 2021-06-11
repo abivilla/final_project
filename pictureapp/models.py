@@ -48,3 +48,4 @@ class Comment(models.Model):
     comment = models.CharField(max_length=255)
     poster = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     post = models.ForeignKey(Post, related_name='post_comments', on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name='liked_comments')

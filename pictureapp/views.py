@@ -92,14 +92,14 @@ def profile_edit(request,id):
         "user":user
     }
         return render(request,'edit_profile.html', context)
-    else:
+    #else:
         #Causing error
-        errors = User.objects.basic_validator(request.POST)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect(f'/profile/edit/{user.id}')
-        else:
+    #    errors = User.objects.basic_validator(request.POST)
+    #    if len(errors) > 0:
+    #        for key, value in errors.items():
+    #            messages.error(request, value)
+    #        return redirect(f'/profile/edit/{user.id}')
+    else:
             user.first_name = request.POST["first_name"]
             user.last_name = request.POST["last_name"]
             user.email = request.POST["email"]
@@ -126,3 +126,45 @@ def create_comment(request,id):
     Comment.objects.create(comment=request.POST["comment"],poster=poster,post=post)
 
     return redirect('/wall')
+
+def like_post(request,id):
+    user = User.objects.get(id=request.session["user_id"])
+    post = Post.objects.get(id=id)
+    post.likes.add(user)
+    return redirect('/wall')
+
+def like_com(request,id):
+    user = User.objects.get(id=request.session["user_id"])
+    comment = Comment.objects.get(id=id)
+    comment.likes.add(user)
+    return redirect('/wall')
+
+def delete_post(request,id):
+    user = User.objects.get(id=request.session["user_id"])
+    post = Post.objects.get(id=id)
+    post.delete()
+
+    return redirect(f'/profile/{user.id}')
+
+def delete_com(request,id):
+    user = User.objects.get(id=request.session["user_id"])
+    comment = Comment.objects.get(id=id)
+    comment.delete()
+
+    return redirect('/wall')
+
+def edit_post(request,id):
+    user = User.objects.get(id=request.session["user_id"])
+    post = Post.objects.get(id=id)
+    if request.method == "GET":
+        context = {
+        "user":user,
+        "post":post,
+    }
+        return render(request,'edit_post.html', context)
+    else:
+        post.picture = request.FILES["pic"]
+        post.desc = request.POST["desc"]
+        post.save()
+    return redirect(f'/profile/{user.id}')
+    
