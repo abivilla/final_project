@@ -92,14 +92,14 @@ def profile_edit(request,id):
         "user":user
     }
         return render(request,'edit_profile.html', context)
-    #else:
-        #Causing error
-    #    errors = User.objects.basic_validator(request.POST)
-    #    if len(errors) > 0:
-    #        for key, value in errors.items():
-    #            messages.error(request, value)
-    #        return redirect(f'/profile/edit/{user.id}')
     else:
+        #Causing error
+        errors = User.objects.basic_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(f'/profile/edit/{user.id}')
+        else:
             user.first_name = request.POST["first_name"]
             user.last_name = request.POST["last_name"]
             user.email = request.POST["email"]
