@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>The Wall</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" href="{% static '/css/styles.css' %}">    
+        <script src="{% static 'js/script.js' %}"></script>  
+    </head>
+    <body>
+        <nav id="card1" class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <i class="fas fa-utensils fa-3x"></i>  
+                <a id="Title" class="navbar-brand">PictureBook</a>
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0 ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile/{{request.session.user_id}}">Welcome, {{request.session.user_name}}!</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout">Log Out</a>
+                    </li>
+                </ul>
+                
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="create">
+                    <h1>Post a picture</h1>
+                    <form action="/create_post" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Picture</label>
+                            <input type="file" class="form-control-file" id="pic" value="" name="pic">
+                        </div>
+                        <div>
+                            <label for="">Description</label>
+                            <textarea name="desc" cols="100" rows="2"></textarea>
+                        </div>
+                        <br>
+                        <button class="btn-primary">Post</button>
+                    </form>
+                </div>
+                <div>
+                    {% for post in posts reversed %}
+                    <div class="post">
+                        {{post.poster.first_name}}-
+                        <br>
+                        <img class="img-thumbnail" alt="missing image" src="{{post.picture.url}}" >
+                        {{post.desc}}
+                        
+                            {% for comment in post.post_comments.all %}
+                        <div class="comment">
+                            {{comment.poster.first_name}}-
+                            {{comment.comment}}
+                        </div>
+                            {% endfor %}
+                        
+                        <div>
+                            Post a comment
+                            <form action="/create_comment/{{post.id}}" method="post">
+                                {% csrf_token %}
+                                <textarea name="comment" cols="100" rows="2"></textarea>
+                                <br>
+                                <button class="btn-primary">Post a comment</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>

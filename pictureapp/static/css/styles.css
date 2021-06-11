@@ -1,0 +1,19 @@
+.post {
+    background-color: rgb(41, 85, 124);
+    padding: 25px;
+    margin: 25px;
+    border-radius: 25px;
+}
+.comment {
+    background-color: #cbcbcb;
+    padding: 25px;
+    margin: 25px;
+    min-height: 50px;
+    border-radius: 25px;
+}
+.create{
+    background-color: rgb(41, 85, 124);
+    padding: 25px;
+    margin: 25px;
+    border-radius: 25px;
+}
