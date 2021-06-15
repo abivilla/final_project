@@ -178,5 +178,6 @@ def edit_post(request,id):
         return redirect(f'/profile/{user.id}')
     else:
         post.desc = request.POST["desc"]
+        post.save()
         return redirect(f'/profile/{user.id}')
     
