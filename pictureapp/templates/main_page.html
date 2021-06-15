@@ -49,6 +49,14 @@
                 
             </div>
         </nav>
+        <style>
+            #profile_pic{
+                max-width: 40px;
+                max-height:40px;
+                margin: 0 auto;
+                border-radius: 50%;
+            }
+        </style>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="create">
@@ -75,7 +83,7 @@
                         {% for post in posts reversed %}
                         <div class="flex-col col-md-4">
                             <div class="card my-2">
-                                        <a class="nav-link" href="/profile/{{post.poster.id}}">{{post.poster.first_name}}-</a>
+                                        <a class="nav-link" href="/profile/{{post.poster.id}}"><img id="profile_pic" alt="missing image" src="{{post.poster.profile_pic.url}}">{{post.poster.first_name}}-</a>
                                         <p>{{post.desc}}</p>
                                         <br>
                                         
@@ -121,7 +129,7 @@
                 <div id="style2">
                     {% for post in posts reversed %}
                     <div class="post">
-                        <a class="nav-link" href="/profile/{{post.poster.id}}">{{post.poster.first_name}}-</a>
+                        <a class="nav-link" href="/profile/{{post.poster.id}}"><img id="profile_pic" alt="missing image" src="{{post.poster.profile_pic.url}}">{{post.poster.first_name}}-</a>
                         {{post.desc}}
                         <br>
                         
