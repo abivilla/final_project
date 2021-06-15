@@ -5,7 +5,9 @@
         <title>Login</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        
+        {% load static %}
+        <link rel="stylesheet" href="{% static '/css/login_reg.css' %}">    
+        <script src="{% static 'js/script.js' %}"></script>  
     </head>
     <body>
         <div class="container">
@@ -24,13 +26,13 @@
                             <h1>Login</h1>
                         </div>
                         <div class="d-flex justify-content-center form_container">
-                            <form class="card-body" action="/login" method="post">
+                            <form class="card-body col-md-6" action="/login" method="post">
                                 {% csrf_token %}
-                                <div class="form-group col-md-6">
+                                <div class="form-group">
                                     <label>Email</label>
                                     <input type="text" class="form-control" name="email">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group">
                                     <label>Password</label>
                                     <input type="password" class="form-control" name="password">
                                 </div>

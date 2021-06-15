@@ -8,19 +8,19 @@
 
     </head>
     <body>
-        <nav id="card1" class="navbar navbar-expand-lg navbar-light">
+        <nav id="card1" class="navbar navbar-expand-lg navbar-light bg-secondary">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                 <i class="fas fa-utensils fa-3x"></i>  
-                <a id="Title" class="navbar-brand">PictureBook</a>
+                <a id="Title" class="navbar-brand text-light" href="/wall">PictureBook</a>
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0 ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/profile/{{request.session.user_id}}">Welcome, {{request.session.user_name}}!</a>
+                        <a class="nav-link text-light" href="/profile/{{request.session.user_id}}">Welcome, {{request.session.user_name}}!</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/logout">Log Out</a>
+                        <a class="nav-link text-light" href="/logout">Log Out</a>
                     </li>
                 </ul>
                 
@@ -29,6 +29,9 @@
         <div class="container">
             <div class="row text-center text-light">
                 <style>
+                    .collapse{
+                        color: rgb(255, 255, 255);
+                    }
                     .profile-pic{
                         max-width: 200px;
                         max-height:200px;
@@ -41,6 +44,9 @@
                     h3{
                         color: #4a4d4a;
                     }
+                    h5{
+                        color: black;
+                    }
                 </style>
                 {% if messages %}
 				<div class="alert alert-danger" role="alert">    
@@ -51,54 +57,59 @@
 				</div>
 				{% endif %}
                 <br>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card card-body">
-                            <a class="btn btn-warning" href="/wall"> &#8592; Back to Home</a>
-                            <hr>
-                            <h3 style="text-align: center">User Profile</h3>
-                            <hr>
-                            <img class="profile-pic" alt="missin image" src="{{user.profile_pic.url}}" >
-                        
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card card-body">
+                                <a class="btn btn-warning" href="/profile/{{user.id}}"> &#8592; Back to Profile</a>
+                                <hr>
+                                <img class="profile-pic" alt="missin image" src="/images/{{user.profile_pic}}" >
+                                <hr>
+                                <form class="card-body" action="/profile/edit_pic/{{user.id}}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="exampleFormControlFile1">Profile Picture</label>
+                                        <input type="file" class="form-control-file" id="profile_pic" value="{{user.profile_pic}}" name="profile_pic">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
+                                <hr>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card card-body">
-                            <h1>Edit Profile</h1>
-							<form class="card-body" action="/profile/edit/{{user.id}}" method="post" enctype="multipart/form-data">
-								{% csrf_token %}
-								<div class="form-row">
-									<div class="form-group">
-										<label>First Name</label>
-										<input type="text" class="form-control" name="first_name" value="{{user.first_name}}">
-									</div>
-								  	<div class="form-group col-md-6">
-										<label>Last Name</label>
-										<input type="text" class="form-control" name="last_name" value="{{user.last_name}}">
-								  	</div>
-								</div>
-								<div class="form-row">
-									<div class="form-group col-md-8">
-										<label>Email</label>
-										<input type="text" class="form-control" name="email" value="{{user.email}}">
-									</div>
-									<div class="form-group col-md-4">
-										<label>Phone</label>
-										<input type="text" class="form-control" name="phone" value="{{user.phone}}">
-									</div>
-								</div>
-								
-								<div class="form-group ">
-									<label>Current City</label>
-									<input type="text" class="form-control" name="city" value="{{user.city}}">
-								</div>
-								<div class="form-group">
-									<label for="exampleFormControlFile1">Profile Picture</label>
-									<input type="file" class="form-control-file" id="profile_pic" value="{{user.profile_pic}}" name="profile_pic">
-								</div>
-								
-								<button type="submit" class="btn btn-primary">Update</button>
-							  </form>
+                        <div class="col-md-8">
+                            <div class="card card-body">
+                                <h1>Edit Profile</h1>
+                                <form class="card-body" action="/profile/edit/{{user.id}}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" name="first_name" value="{{user.first_name}}">
+                                        </div>
+                                          <div class="form-group col-md-6">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" name="last_name" value="{{user.last_name}}">
+                                          </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-8">
+                                            <label>Email</label>
+                                            <h5>{{user.email}}</h5>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" name="phone" placeholder="{{user.phone}}" value="{{user.phone}}">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group ">
+                                        <label>Current City</label>
+                                        <input type="text" class="form-control" name="city" value="{{user.city}}">
+                                    </div>
+     
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                  </form>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,9 @@
     margin: 25px;
     border-radius: 25px;
 }
+.card{
+    background-color: aliceblue; 
+}
 .comment {
     background-color: #cbcbcb;
     padding: 25px;

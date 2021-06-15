@@ -94,29 +94,38 @@ def profile_edit(request,id):
         return render(request,'edit_profile.html', context)
     else:
         #Causing error
-        errors = User.objects.basic_validator(request.POST)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect(f'/profile/edit/{user.id}')
-        else:
-            user.first_name = request.POST["first_name"]
-            user.last_name = request.POST["last_name"]
-            user.email = request.POST["email"]
-            user.phone = request.POST["phone"]
-            user.city = request.POST["city"]
-            user.profile_pic = request.FILES["profile_pic"]
-            user.password = user.password
-            user.save()
-            return redirect(f'/profile/{user.id}')
+        errors = User.objects.profile_validator(request.POST)
+        if errors:
+            for error in errors.values():
+                messages.error(request,error)
+            return redirect(f'/profile/edit/{user.id}')    
+        user.first_name = request.POST["first_name"]
+        user.last_name = request.POST["last_name"]
+        user.phone = request.POST["phone"]
+        user.city = request.POST["city"]
+        user.save()
+        return redirect(f'/profile/{user.id}')
+
+def profile_pic(request,id):
+    user=User.objects.get(id=id)
+    
+    if len(request.FILES) != 0:
+        user.profile_pic = request.FILES["profile_pic"]
+        user.save()
+
+        return redirect(f'/profile/{user.id}')
+    else:
+        return redirect(f'/profile/edit/{user.id}')
 
 def create_post(request):
+    if len(request.FILES) != 0:
+        poster = User.objects.get(id=request.session["user_id"])
 
-    poster = User.objects.get(id=request.session["user_id"])
+        Post.objects.create(picture=request.FILES["pic"], desc=request.POST["desc"], poster=poster)
 
-    Post.objects.create(picture=request.FILES["pic"], desc=request.POST["desc"], poster=poster)
-
-    return redirect('/wall')
+        return redirect('/wall')
+    else:
+        return redirect('/wall')
 
 def create_comment(request,id):
 
@@ -162,9 +171,12 @@ def edit_post(request,id):
         "post":post,
     }
         return render(request,'edit_post.html', context)
-    else:
+    if len(request.FILES) != 0:
         post.picture = request.FILES["pic"]
         post.desc = request.POST["desc"]
         post.save()
-    return redirect(f'/profile/{user.id}')
+        return redirect(f'/profile/{user.id}')
+    else:
+        post.desc = request.POST["desc"]
+        return redirect(f'/profile/{user.id}')
     
