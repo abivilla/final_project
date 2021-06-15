@@ -76,6 +76,7 @@
                             <h3>Email: {{user.email}}</h3>
                             <h3>Phone: {{user.phone}}</h3>
                             <h3>Current City: {{user.city}}</h3>
+                            {{user.profile_pic.url}}
                         </div>
                         {% if user.id == request.session.user_id %}
                         <a href="/profile/edit/{{user.id}}" class="ml-2">Edit</a>
