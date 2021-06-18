@@ -129,11 +129,11 @@
                 <div id="style2">
                     {% for post in posts reversed %}
                     <div class="post">
-                        <a class="nav-link" href="/profile/{{post.poster.id}}"><img id="profile_pic" alt="missing image" src="{{post.poster.profile_pic}}">{{post.poster.first_name}}-</a>
+                        <a class="nav-link" href="/profile/{{post.poster.id}}"><img id="profile_pic" alt="missing image" src="/images/{{post.poster.profile_pic}}">{{post.poster.first_name}}-</a>
                         {{post.desc}}
                         <br>
                         
-                        <img class="img-thumbnail" alt="missing image" src="{{post.picture}}" >
+                        <img class="img-thumbnail" alt="missing image" src="/images/{{post.picture}}" >
                         
                             {% for comment in post.post_comments.all %}
                         <div class="comment">
